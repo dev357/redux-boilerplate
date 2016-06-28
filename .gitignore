@@ -1,7 +1,9 @@
-.idea/
-node_modules/
-dist/
-*.iml
-webpack-assets.json
-webpack-stats.json
+.idea
+node_modules
+dist
+docs
+.iml
+.tmp
+.sass-cache
+.publish
 npm-debug.log

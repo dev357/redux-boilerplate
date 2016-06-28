@@ -1,38 +1,76 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const CleanPlugin = require('clean-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  devtool: 'eval',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    'react-hot-loader/patch',
-    './index'
-  ],
+const isProd = process.env.NODE_ENV === 'production';
+const isTest = process.env.NODE_ENV === 'test';
+
+const config = {
+  context: path.join(__dirname, 'src'),
+  resolve: {
+    modules: [__dirname, 'node_modules'],
+    extensions: ['', '.js', '.jsx']
+  },
+  entry: {
+    app: './index.js'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: '[name].[hash].js'
   },
+  devtool: 'source-map',
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.NoErrorsPlugin()
   ],
-  resolve: {
-    extensions: ['', '.js']
-  },
-  resolveLoader: {
-    'fallback': path.join(__dirname, 'node_modules')
-  },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loaders: ['babel'],
-      exclude: /node_modules/,
-      include: __dirname
-    }, {
-      test: /\.css?$/,
-      loaders: ['style', 'raw'],
-      include: __dirname
-    }]
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel'],
+        exclude: /node_modules/
+      }
+    ]
   }
 };
+
+if (isTest || isProd) {
+  config.plugins = config.plugins.concat([
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    })
+  ]);
+}
+
+if (isProd) {
+  config.output.publicPath = '/react-redux-starter/';
+
+  config.plugins = config.plugins.concat([
+    new CleanPlugin(['dist'], {verbose: false}),
+    new HtmlPlugin({
+      appMountId: 'app',
+      baseHref: '/react-redux-starter/',
+      favicon: './favicon.ico',
+      inject: false,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
+      mobile: true,
+      template: './index.ejs',
+      title: 'React-Starter'
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ]);
+}
+
+module.exports = config;

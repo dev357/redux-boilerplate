@@ -1,3 +1,7 @@
+import '../node_modules/material-design-lite/dist/material.js';
+import '../node_modules/material-design-lite/dist/material.css';
+import './styles/main.css';
+
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';

@@ -1,0 +1,12 @@
+.mdl-layout__drawer-button:before {
+  content: '';
+}
+
+.content {
+  padding: 3rem;
+  border-radius: 5px;
+}
+
+.icon-text-align {
+  vertical-align: middle;
+}

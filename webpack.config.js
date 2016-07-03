@@ -29,6 +29,9 @@ const config = {
         test: /\.jsx?$/,
         loaders: ['babel'],
         exclude: /node_modules/
+      }, {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   }

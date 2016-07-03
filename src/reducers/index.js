@@ -1,4 +1,4 @@
-import examples from './examples';
+import examples from './home';
 
 export default {
   ...examples

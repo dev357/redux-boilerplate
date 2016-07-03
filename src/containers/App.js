@@ -1,5 +1,8 @@
 import React, {PropTypes, Component} from 'react';
-import Header from '../components/Header';
+
+import {Layout, Header, Content} from 'react-mdl/lib/Layout';
+import AppFooter from '../components/AppFooter';
+import AppDrawer from '../components/AppDrawer';
 
 export default class App extends Component {
   static propTypes = {
@@ -7,18 +10,29 @@ export default class App extends Component {
     location: PropTypes.object.isRequired
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      layoutRef: 'none'
+    }
+  }
+
+  componentDidMount = () => {
+    this.setState({layoutRef: this.refs.layout});
+  };
+
   render() {
     const {location, children} = this.props;
-    
+    const title = "Simple Layout";
+
     return (
-      <div className="app">
-        <Header location={this.props.location} />
-        <main className="app__content">
-          <div className="app__container">
-            {this.props.children}
-          </div>
-        </main>
-      </div>
+      <Layout ref="layout" className="app" fixedHeader fixedDrawer={false}>
+        <Header className="app__header" title={title}/>
+        <AppDrawer layoutRef={this.state.layoutRef}  title={title} className="app__drawer"/>
+        <Content component="main">{children}</Content>
+        <AppFooter />
+      </Layout>
     );
   }
 }

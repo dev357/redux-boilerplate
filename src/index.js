@@ -1,5 +1,4 @@
-import '../node_modules/react-mdl/extra/material.js';
-import '../node_modules/react-mdl/extra/material.css';
+import '../node_modules/muicss/lib/css/mui.css';
 import './styles/main.css';
 
 import React from 'react';
@@ -8,8 +7,8 @@ import { AppContainer } from 'react-hot-loader';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import store from 'src/store/index';
-import Root from 'src/containers/Root';
+import store from './redux/store/index';
+import Root from './containers/Root';
 
 const history = syncHistoryWithStore(browserHistory, store);
 

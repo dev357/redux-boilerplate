@@ -22,7 +22,9 @@
   <% if (htmlWebpackPlugin.options.baseHref) { %>
   <base href="<%= htmlWebpackPlugin.options.baseHref %>" />
   <% } %>
-  <script src="<%= htmlWebpackPlugin.files.chunks['scripts/vendor/modernizr'].entry %>"></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 <body>

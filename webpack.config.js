@@ -47,13 +47,13 @@ if (isTest || isProd) {
 }
 
 if (isProd) {
-  config.output.publicPath = '/react-redux-starter/';
+  config.output.publicPath = '/';
 
   config.plugins = config.plugins.concat([
     new CleanPlugin(['dist'], {verbose: false}),
     new HtmlPlugin({
       appMountId: 'app',
-      baseHref: '/react-redux-starter/',
+      baseHref: '/',
       favicon: './favicon.ico',
       inject: false,
       minify: {

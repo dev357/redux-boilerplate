@@ -1,12 +1,8 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { browserHistory } from 'react-router';
-import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'react-router-redux';
 import { apiMiddleware } from 'redux-api-middleware';
-import rootReducer from 'src/reducers/index';
-
-const reducer = combineReducers(Object.assign({}, rootReducer, {
-  routing: routerReducer
-}));
+import reducer from '../reducers';
 
 export default (initialState = {}) => {
   const createStoreWithMiddleware = applyMiddleware(

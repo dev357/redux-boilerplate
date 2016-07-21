@@ -42,7 +42,7 @@ config.plugins.unshift(
     notify: true,
     open: false,
     logPrefix: 'sia',
-    proxy: 'http://localhost:3030'
+    proxy: 'http://0.0.0.0:3030'
   }, {
     reload: false
   })
@@ -67,7 +67,7 @@ new WebpackDevServer(compiler, {
   hot: true,
   historyApiFallback: true,
   stats: {colors: true}
-}).listen(3030, 'localhost', function (err) {
+}).listen(3030, '0.0.0.0', function (err) {
   if (err) {
     console.log('err', err);
   }

@@ -1,9 +1,10 @@
 .idea
 node_modules
-dist
+build
 docs
 .iml
 .tmp
 .sass-cache
 .publish
 npm-debug.log
+stats.json

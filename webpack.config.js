@@ -1,79 +1,81 @@
 const path = require('path');
-const webpack = require('webpack');
-const CleanPlugin = require('clean-webpack-plugin');
-const HtmlPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const validate = require('webpack-validator');
 
-const isProd = process.env.NODE_ENV === 'production';
-const isTest = process.env.NODE_ENV === 'test';
+const parts = require('./libs/parts');
 
-const config = {
-  context: path.join(__dirname, 'src'),
-  resolve: {
-    modules: [__dirname, 'node_modules'],
-    extensions: ['', '.js', '.jsx']
-  },
-  entry: {
-    app: './index.js'
-  },
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].[hash].js'
-  },
-  devtool: 'source-map',
-  plugins: [
-    new webpack.NoErrorsPlugin()
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  style: [
+    path.join(__dirname, 'node_modules', 'muicss', 'lib', 'css', 'mui.css'),
+    path.join(__dirname, 'app', 'main.css')
   ],
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel'],
-        exclude: /node_modules/
-      }, {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      }
-    ]
-  }
+  build: path.join(__dirname, 'build')
 };
 
-if (isTest || isProd) {
-  config.plugins = config.plugins.concat([
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
+
+const common = {
+  entry: {
+    style: PATHS.style,
+    app: PATHS.app
+  },
+
+  output: {
+    path: PATHS.build,
+    filename: '[name].js'
+  },
+
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'React-Redux'
     })
-  ]);
-}
+  ],
+};
 
-if (isProd) {
-  config.output.publicPath = '/';
+let config;
 
-  config.plugins = config.plugins.concat([
-    new CleanPlugin(['dist'], {verbose: false}),
-    new HtmlPlugin({
-      appMountId: 'app',
-      baseHref: '/',
-      favicon: './favicon.ico',
-      inject: false,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true
+// Detect how npm i run and brandh based on that
+switch(process.env.npm_lifecycle_event) {
+  case 'build':
+  case 'stats': // http://webpack.github.io/analyse/
+    config = merge(
+      common,
+      {
+        devtool: 'source-map',
+        output: {
+          path: PATHS.build,
+          filename: '[name].[chunkhash].js',
+          chunkFilename: '[chunkhash].js'
+        }
       },
-      mobile: true,
-      template: './index.ejs',
-      title: 'React-Starter'
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
-  ]);
+      parts.clean(PATHS.build),
+      parts.setFreeVariable('process.env.NODE_ENV', 'production'),
+      parts.extractBundle({ name: 'vendor', entries: ['react'] }),
+      parts.minify(),
+      parts.setupJSX(PATHS.app),
+      parts.extractCSS(PATHS.style),
+      parts.purifyCSS([PATHS.app])
+    );
+    break;
+  default:
+    config = merge(
+      common,
+      { devtool: 'eval-source-map' },
+      parts.setupJSX(PATHS.app),
+      parts.setupCSS(PATHS.style),
+      parts.devServer({
+        host: process.env.HOST || '0.0.0.0',
+        port: process.env.PORT || 8080
+      })
+    );
 }
 
-module.exports = config;
+// Run validator in quiet mode to avoid output in stats
+module.exports = validate(config, {
+  quiet: true
+});

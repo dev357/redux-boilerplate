@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router';
-import createRoutes from 'src/routes';
+import createRoutes from 'app/routes';
 
 const Root = ({ store, history }) => (
   <Provider store={store}>

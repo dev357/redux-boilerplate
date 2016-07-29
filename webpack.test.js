@@ -1,4 +1,4 @@
-var config = require('./webpack.config');
+var config = require('./webpack.config.old.js');
 var nodeExternals = require('webpack-node-externals');
 
 config.devtool = 'cheap-module-source-map';

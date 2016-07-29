@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const config = require('./webpack.config.js');
+const config = require('./webpack.config.old.js');
 
 function getIPAddress() {
   const interfaces = require('os').networkInterfaces();

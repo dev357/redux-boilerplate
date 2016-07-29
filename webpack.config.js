@@ -1,9 +1,9 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const pkg = require('./package.json');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
-const validate = require('webpack-validator');
 
-const parts = require('./libs/parts');
+const parts = require('./webpack/parts');
 
 const PATHS = {
   app: path.join(__dirname, 'app'),
@@ -27,20 +27,19 @@ const common = {
   },
 
   resolve: {
+    modules: [PATHS.app, 'node_modules'],
     extensions: ['', '.js', '.jsx']
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'React-Redux'
-    })
-  ],
+    new webpack.NoErrorsPlugin()
+  ]
 };
 
 let config;
 
-// Detect how npm i run and brandh based on that
-switch(process.env.npm_lifecycle_event) {
+// Detect how npm is run and branch based on that
+switch (process.env.npm_lifecycle_event) {
   case 'build':
   case 'stats': // http://webpack.github.io/analyse/
     config = merge(
@@ -55,27 +54,31 @@ switch(process.env.npm_lifecycle_event) {
       },
       parts.clean(PATHS.build),
       parts.setFreeVariable('process.env.NODE_ENV', 'production'),
-      parts.extractBundle({ name: 'vendor', entries: ['react'] }),
+      parts.extractBundle({name: 'vendor', entries: Object.keys(pkg.dependencies)}),
+      parts.dedupe(),
       parts.minify(),
       parts.setupJSX(PATHS.app),
-      parts.extractCSS(PATHS.style),
-      parts.purifyCSS([PATHS.app])
+      parts.extractCSS([PATHS.app, ...PATHS.style]),
+      parts.purifyCSS([PATHS.app]),
+      parts.html({
+        title: 'react-redux-muicss',
+        appMountId: 'app',
+        template: path.join(PATHS.app, 'index.ejs'),
+        mobile: true,
+        inject: false,
+        baseHref: '/',
+        favicon: path.join(PATHS.app, 'favicon.ico'),
+        // minify: { removeComments: true, collapseWhitespace: true }
+      })
     );
     break;
   default:
     config = merge(
       common,
-      { devtool: 'eval-source-map' },
+      {devtool: 'eval-source-map'},
       parts.setupJSX(PATHS.app),
-      parts.setupCSS(PATHS.style),
-      parts.devServer({
-        host: process.env.HOST || '0.0.0.0',
-        port: process.env.PORT || 8080
-      })
+      parts.setupCSS([PATHS.app, ...PATHS.style])
     );
 }
 
-// Run validator in quiet mode to avoid output in stats
-module.exports = validate(config, {
-  quiet: true
-});
+module.exports = config;

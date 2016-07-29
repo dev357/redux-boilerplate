@@ -1,7 +1,9 @@
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 exports.devServer = function(options) {
   return {
@@ -29,12 +31,20 @@ exports.devServer = function(options) {
   };
 };
 
+exports.html = function(options) {
+  return {
+    plugins: [
+      new HtmlWebpackPlugin(options)
+    ],
+  }
+};
+
 exports.setupJSX = function(paths) {
   return {
     module: {
       loaders: [
         {
-          test: /(js|jsx)$/,
+          test: /\.jsx?$/,
           loaders: ['babel?cacheDirectory'],
           include: paths
         }
@@ -49,11 +59,11 @@ exports.setupCSS = function(paths) {
       loaders: [
         {
           test: /\.css$/,
-          loaders: ['style', 'css?modules'],
+          loaders: ['style', 'css'],
           include: paths
         }
       ]
-    }
+    },
   }
 };
 
@@ -95,6 +105,10 @@ exports.minify = function() {
         compress: {
           warnings: false
         }
+      }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false
       })
     ]
   };
@@ -131,6 +145,14 @@ exports.clean = function(path) {
       new CleanWebpackPlugin([path], {
         root: process.cwd()
       })
+    ]
+  };
+};
+
+exports.dedupe = function() {
+  return {
+    plugins: [
+      new webpack.optimize.DedupePlugin()
     ]
   };
 };

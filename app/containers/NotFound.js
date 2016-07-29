@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import shouldComponentUpdate from 'utils/PureRender';
+import shouldComponentUpdate from '../utils/PureRender';
 
 export default class NotFound extends Component {
   shouldComponentUpdate = shouldComponentUpdate;

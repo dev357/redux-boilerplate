@@ -4,8 +4,8 @@ import {routerMiddleware} from 'react-router-redux';
 import {apiMiddleware} from 'redux-api-middleware';
 import createLogger from 'redux-logger';
 
-import reducer from '../reducers';
-import DevTools from 'app/components/DevTools';
+import reducer from 'redux/reducers';
+import DevTools from 'components/DevTools';
 
 const logger = createLogger({collapsed: true, duration: true});
 
@@ -19,8 +19,8 @@ export default (initialState = {}) => {
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
   if (module.hot) {
-    module.hot.accept('app/redux/reducers', () => {
-      store.replaceReducer(require('app/redux/reducers').default);
+    module.hot.accept('redux/reducers', () => {
+      store.replaceReducer(require('redux/reducers').default);
     });
   }
 

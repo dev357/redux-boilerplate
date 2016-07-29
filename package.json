@@ -4,12 +4,12 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "start: old": "node webpack.server.js",
+    "start": "node webpack.server.js",
     "build": "webpack",
-    "stats": "webpack --profile --json > stats.json"
+    "stats": "webpack --profile --json > stats.json",
+    "test": "TODO"
   },
-  "author": "",
+  "author": "dev357",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.10.4",
@@ -35,9 +35,7 @@
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.19",
     "webpack-dev-server": "^2.1.0-beta.0",
-    "webpack-merge": "^0.14.1",
-    "webpack-node-externals": "^1.2.0",
-    "webpack-validator": "^2.2.6"
+    "webpack-merge": "^0.14.1"
   },
   "dependencies": {
     "classnames": "^2.2.5",

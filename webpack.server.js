@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const config = require('./webpack.config.old.js');
+const config = require('./webpack.config.js');
 
 function getIPAddress() {
   const interfaces = require('os').networkInterfaces();
@@ -42,7 +42,7 @@ config.plugins.unshift(
     notify: true,
     open: false,
     logPrefix: 'sia',
-    proxy: 'http://0.0.0.0:3030'
+    proxy: 'http://localhost:3030'
   }, {
     reload: false
   })
@@ -61,7 +61,7 @@ compiler.plugin('done', function () {
 });
 
 new WebpackDevServer(compiler, {
-  contentBase: path.join(__dirname, 'src'),
+  contentBase: path.join(__dirname, 'app'),
   publicPath: '/',
   noInfo: true,
   hot: true,

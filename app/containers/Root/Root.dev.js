@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {PropTypes as T, Component} from 'react';
 import {Provider} from 'react-redux';
 import {Router} from 'react-router';
 import DevTools from '../../components/DevTools';
@@ -6,8 +6,8 @@ import createRoutes from '../../routes';
 
 export default class Root extends Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
-    store: PropTypes.object.isRequired
+    history: T.object.isRequired,
+    store: T.object.isRequired
   };
 
   render() {

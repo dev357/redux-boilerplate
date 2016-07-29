@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import shouldComponentUpdate from 'utils/PureRender';
+import shouldComponentUpdate from '../utils/PureRender';
 
 import {increment, decrement} from '../redux/modules/counter';
 

@@ -1,5 +1,4 @@
-import '../node_modules/muicss/lib/css/mui.css';
-import './styles/main.css';
+import 'styles/main.css';
 
 import React from 'react';
 import { render } from 'react-dom';

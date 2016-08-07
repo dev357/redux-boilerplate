@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 exports.devServer = function(options) {
   return {
@@ -58,12 +59,34 @@ exports.setupCSS = function(paths) {
     module: {
       loaders: [
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
+          test: /(\.scss|\.css)$/,
+          loader: 'style',
           include: paths
-        }
+        }, {
+          test: /(\.scss|\.css)$/,
+          loader: 'css',
+          query: {
+            modules: true,
+            localIdentName: '[name]__[local]__[hash:base64:5]'
+          },
+          include: paths
+        }, {
+          test: /\.scss$/,
+          loader: 'postcss',
+          include: paths
+        }, {
+          test: /\.scss$/,
+          loader: 'sass',
+          include: paths
+        },
+
       ]
     },
+    postcss: [autoprefixer],
+    sassLoader: {
+      data: '@import "styles/_config.scss";',
+      includePaths: paths
+    }
   }
 };
 
@@ -72,14 +95,19 @@ exports.extractCSS = function(paths) {
     module: {
       loaders: [
         {
-          test: /\.css$/,
+          test: /(\.scss|\.css)$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style',
-            loader: 'css'
+            loader: 'css?modules&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass'
           }),
           include: paths
         }
       ]
+    },
+    postcss: [autoprefixer],
+    sassLoader: {
+      data: '@import "styles/_config.scss";',
+      includePaths: paths
     },
     plugins: [
       new ExtractTextPlugin('[name].[chunkhash].css')

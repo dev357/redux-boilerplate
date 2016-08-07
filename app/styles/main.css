@@ -1,8 +1,13 @@
+@import "./colors.css";
+@import "./layout.css";
+
 /* BODY CSS */
 html, body {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   height: 100%;
   background-color: #eee;
+  margin: 0;
+  padding: 0;
 }
 
 html, body, input, textarea, button {
@@ -10,17 +15,3 @@ html, body, input, textarea, button {
   -moz-osx-font-smoothing: grayscale;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
-
-
-
-
-
-/* Toggle Side drawer */
-#sidedrawer.active {
-  transform: translate(200px);
-}
-
-
-
-
-

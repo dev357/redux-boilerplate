@@ -1,0 +1,3 @@
+.fab {
+  composes: noUserSelect from "styles/layout.css";
+}

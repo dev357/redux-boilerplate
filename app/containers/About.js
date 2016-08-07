@@ -9,7 +9,7 @@ export default class About extends Component {
       <div>
         <div className="content" col={10} tablet={12} offsetDesktop={1} shadow={4}>
           <h4>Powered by:</h4>
-          <div>React, Redux, MDL</div>
+          <div>React, Redux, CSS Modules</div>
         </div>
       </div>
     );

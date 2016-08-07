@@ -8,7 +8,7 @@ const parts = require('./webpack/parts');
 const PATHS = {
   app: path.join(__dirname, 'app'),
   style: [
-    path.join(__dirname, 'node_modules', 'muicss', 'lib', 'css', 'mui.css'),
+    path.join(__dirname, 'node_modules', 'react-toolbox'),
     path.join(__dirname, 'app', 'main.css')
   ],
   build: path.join(__dirname, 'build')
@@ -28,7 +28,7 @@ const common = {
 
   resolve: {
     modules: [PATHS.app, 'node_modules'],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.scss', 'css', '.js', '.jsx', '.json']
   },
 
   plugins: [

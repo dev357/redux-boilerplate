@@ -6,8 +6,8 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
-        <div className="content" col={10} tablet={12} offsetDesktop={1} shadow={4}>
+      <div className="mui-row">
+        <div className="content mui-col-md-10 mui-col-xs-12 mui-col-md-offset-1">
           <h3>HOME</h3>
         </div>
       </div>

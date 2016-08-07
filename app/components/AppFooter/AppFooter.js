@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
 import shouldComponentUpdate from '../../utils/PureRender';
 
-import './styles.css';
-
-import Container from 'muicss/lib/react/container';
+import styles from './styles.css';
 
 export default class AppFooter extends Component {
   shouldComponentUpdate = shouldComponentUpdate;
 
   render() {
     return (
-      <footer id="footer">
-        <Container fluid>
-          <br/>
-          Made with ♥ by dev357
-        </Container>
+      <footer className={styles.footer}>
+        <br/>
+        Made with ♥ by <a href="https://github.com/dev357" target="_blank">dev357</a>
       </footer>
     );
   }

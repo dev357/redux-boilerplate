@@ -1,19 +1,26 @@
-/* Header CSS */
-
-.mui-appbar span {
-  font-weight: 400;
-  font-size: 20px;
+.header {
+  composes: transitionLeft from "styles/effect.css";
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 1rem;
 }
 
-.drawer-toggle {
-  color: #fff;
+.title {
+  composes: roman large from "styles/type.css"
+}
+
+.drawerToggle {
+  composes: noUserSelect from "styles/layout.css";
+  color: var(--white-color);
   cursor:pointer;
   font-size: 20px;
-  line-height: 20px;
   margin-right: 10px;
 }
 
-.drawer-toggle:hover {
-  color: #fff;
+.drawerToggle:hover {
+  color: var(--white-color);
   text-decoration: none;
 }

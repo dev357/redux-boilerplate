@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import shouldComponentUpdate from '../../utils/PureRender';
 
-import './styles.css';
+import styles from './styles.css';
 
-import {Link} from 'react-router';
-import Divider from 'muicss/lib/react/divider';
+import {Link, IndexLink} from 'react-router';
+import ExpandableList from 'components/ExpandableList/ExpandableList';
+
+const ACTIVE = {color: 'red'};
 
 export default class SideDrawer extends Component {
   shouldComponentUpdate = shouldComponentUpdate;
@@ -13,38 +15,34 @@ export default class SideDrawer extends Component {
     const {title} = this.props;
 
     return (
-      <div>
-        <div id="drawer" className="mui--no-user-select">
-          <div id="drawer-brand" className="mui--appbar-height mui--appbar-line-height">{title}</div>
-          <Divider />
+        <div className={styles.drawer}>
+          <div className={styles.drawerBrand}>{title}</div>
+          <hr className={styles.divider}/>
           <ul>
             <li>
-              <strong>Examples</strong>
-              <ul>
-                <li><Link to="/" onClick={this.toggleDrawer}>Home</Link></li>
-                <li><Link to="/counter" onClick={this.toggleDrawer}>Counter</Link></li>
-                <li><Link to="/about" onClick={this.toggleDrawer}>About</Link></li>
-              </ul>
+              <ExpandableList title="Examples">
+                <li><Link to="/examples/home" activeClassName={styles.active}>Home</Link></li>
+                <li><Link to="/examples/counter" activeClassName={styles.active}>Counter</Link></li>
+                <li><Link to="/examples/about" activeClassName={styles.active}>About</Link></li>
+              </ExpandableList>
             </li>
             <li>
-              <strong>Category 2</strong>
-              <ul>
+              <ExpandableList title="Category 2">
                 <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 1</a></li>
-              </ul>
+                <li><a href="#">Item 2</a></li>
+                <li><a href="#">Item 3</a></li>
+              </ExpandableList>
             </li>
             <li>
-              <strong>Category 3</strong>
-              <ul>
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 1</a></li>
-              </ul>
+              <ExpandableList title="Resources">
+                <li><Link to="https://facebook.github.io/react/" target="_blank">React</Link></li>
+                <li><Link to="http://redux.js.org/" target="_blank">Redux</Link></li>
+                <li><Link to="https://github.com/css-modules/css-modules" target="_blank">CSS Modules</Link></li>
+                <li><Link to="http://react-toolbox.com/#/" target="_blank">React Toolbox</Link></li>
+              </ExpandableList>
             </li>
           </ul>
         </div>
-      </div>
     );
   }
 }

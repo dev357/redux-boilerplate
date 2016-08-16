@@ -6,8 +6,6 @@ import styles from './styles.css';
 import {Link, IndexLink} from 'react-router';
 import ExpandableList from 'components/ExpandableList/ExpandableList';
 
-const ACTIVE = {color: 'red'};
-
 export default class SideDrawer extends Component {
   shouldComponentUpdate = shouldComponentUpdate;
 
